@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# WikiGuesser
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Gemini のプロトタイプをベースに、Wikipedia のランダム記事を当てるカードゲームを React（CRA）+ Tailwind CSS で再構築しています。虫食いタイトルやヒントカードの挙動、全体の UI をオリジナルと同じテイストで再現しました。
 
-## Available Scripts
+## 必要要件
 
-In the project directory, you can run:
+- Node.js 18 以上（LTS 推奨）
+- npm もしくは互換パッケージマネージャ
 
-### `npm start`
+## セットアップ
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`npm start` で `http://localhost:3000` が立ち上がり、ローカルでプレイできます。
 
-### `npm test`
+## ビルド
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm run build
+```
 
-### `npm run build`
+`build/` 以下に静的ファイルが出力され、そのまま GitHub Pages などのホスティングへ配置できます。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## GitHub Pages へのデプロイ手順
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. `package.json` の `homepage` を本番 URL（例: `https://<ユーザー名>.github.io/<リポジトリ名>`）に変更
+2. リポジトリを GitHub に push
+3. `npm run deploy`（=`gh-pages -d build`）を実行して `gh-pages` ブランチへ公開
+4. GitHub Pages の配信元を `gh-pages` ブランチに設定
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 実装メモ
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Wikipedia API を直接 `fetch` し、`origin=*` を付与して CORS を解決しています。バックエンドは不要です。
+- Tailwind CSS をベースにしつつ、`src/index.css` で `line-clamp-3` やセクション表示用のスクロールコンテナなどの補助クラスを定義しています。
+- ヒントカードは利用可能な情報のみを組み合わせ、足りないときは 5 枚未満でも配布します。セクションヒントは HTML をそのままスクロール表示するため、表やリストも崩れません。
+- 初期画面とヘッダー下にジャンル選択 UI（チェックボックス）を設置し、歴史・科学・スポーツ・日本のテレビアニメなど複数のカテゴリを組み合わせて記事を絞り込めます。
+- `npm run deploy` は `gh-pages` パッケージを利用します。初回だけ GitHub の認証を求められる場合があります。
