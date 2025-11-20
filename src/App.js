@@ -657,7 +657,11 @@ const fetchGenreTitle = async (genreOption) => {
       return;
     }
 
-    if ((event.key === 'Enter' || event.key === 'ArrowRight') && !isComposingRef.current) {
+    const isEnterKey = event.key === 'Enter';
+    const isArrowRight = event.key === 'ArrowRight';
+    const isSpaceKey = event.key === ' ' || event.code === 'Space' || event.key === 'Spacebar';
+
+    if ((isEnterKey || isArrowRight) && !isComposingRef.current) {
       event.preventDefault();
       let lastFilledIndex = index;
       setGuessInputs((prev) => {
@@ -680,8 +684,15 @@ const fetchGenreTitle = async (genreOption) => {
       const nextIndex = findNextEditableIndex(lastFilledIndex);
       if (nextIndex !== null) {
         focusInput(nextIndex);
-      } else if (!isSubmitDisabled) {
+      } else if (isEnterKey && !isSubmitDisabled) {
         handleGuess();
+      }
+    } else if (isSpaceKey && !isComposingRef.current) {
+      const nextIndex = findNextEditableIndex(index);
+      if (nextIndex !== null) {
+        setTimeout(() => {
+          focusInput(nextIndex);
+        }, 0);
       }
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
@@ -732,8 +743,8 @@ const fetchGenreTitle = async (genreOption) => {
   const isSubmitDisabled = !guessString.trim();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-800 font-sans selection:bg-indigo-200">
-      <div className="max-w-3xl grow mx-auto p-4 pb-4">
+    <div className="min-h-screen bg-slate-100 text-slate-800 font-sans selection:bg-indigo-200">
+      <div className="max-w-3xl min-h-screen mx-auto p-4 pb-4">
         <header className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
           <div className="flex items-center gap-3 flex-wrap">
             <Search className="text-indigo-600" />
@@ -1111,7 +1122,7 @@ const fetchGenreTitle = async (genreOption) => {
       )}
 
       {(gameState === 'won' || gameState === 'lost' || gameState === 'gaveup') && (
-        <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-6 shadow-lg">
+        <div className="sticky bottom-0 left-0 w-full bg-white border-t border-slate-200 p-6 shadow-lg">
           <div className="max-w-3xl mx-auto text-center">
             <button
               type="button"
