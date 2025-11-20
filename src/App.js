@@ -732,8 +732,8 @@ const fetchGenreTitle = async (genreOption) => {
   const isSubmitDisabled = !guessString.trim();
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800 font-sans selection:bg-indigo-200">
-      <div className="max-w-3xl mx-auto p-4 pb-28">
+    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-800 font-sans selection:bg-indigo-200">
+      <div className="max-w-3xl grow mx-auto p-4 pb-4">
         <header className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
           <div className="flex items-center gap-3 flex-wrap">
             <Search className="text-indigo-600" />
@@ -856,7 +856,11 @@ const fetchGenreTitle = async (genreOption) => {
           </div>
         )}
 
-        {(gameState === 'playing' || gameState === 'won' || gameState === 'lost') && article && (
+        {(gameState === 'playing' ||
+          gameState === 'won' ||
+          gameState === 'lost' ||
+          gameState === 'gaveup') &&
+          article && (
           <main className="space-y-6">
             <section className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600 opacity-10" />
@@ -1051,7 +1055,7 @@ const fetchGenreTitle = async (genreOption) => {
       {gameState === 'playing' && (
         <form
           onSubmit={handleGuess}
-          className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 shadow-lg z-10"
+          className="sticky bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 shadow-lg z-10"
         >
           <div className="max-w-3xl mx-auto flex flex-col gap-3">
             <div className="flex flex-wrap gap-2">

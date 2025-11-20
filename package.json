@@ -2,7 +2,7 @@
   "name": "wikiguesser_v1",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://your-username.github.io/wikiguesser_v1",
+  "homepage": "https://nevsock.github.io/wikiguesser_v1",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
