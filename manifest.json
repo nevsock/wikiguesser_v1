@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "wikiguesser",
+  "name": "Wikipediaの情報の一部を見て、虫食いになってる記事名を当てよう！",
   "icons": [
     {
       "src": "favicon.ico",
