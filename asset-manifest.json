@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/wikiguesser_v1/static/css/main.e0271b25.css",
+    "main.js": "/wikiguesser_v1/static/js/main.4ff251e5.js",
+    "static/js/453.407e6ac8.chunk.js": "/wikiguesser_v1/static/js/453.407e6ac8.chunk.js",
+    "index.html": "/wikiguesser_v1/index.html",
+    "main.e0271b25.css.map": "/wikiguesser_v1/static/css/main.e0271b25.css.map",
+    "main.4ff251e5.js.map": "/wikiguesser_v1/static/js/main.4ff251e5.js.map",
+    "453.407e6ac8.chunk.js.map": "/wikiguesser_v1/static/js/453.407e6ac8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e0271b25.css",
+    "static/js/main.4ff251e5.js"
+  ]
+}
