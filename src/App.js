@@ -543,7 +543,9 @@ const fetchGenreTitle = async (genreOption) => {
   };
 
   const handleGuess = (event) => {
-    event.preventDefault();
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
     if (!article) return;
 
     const normalizedInputs = getNormalizedGuessArrayState();
@@ -621,22 +623,23 @@ const fetchGenreTitle = async (genreOption) => {
     }
   };
 
-  const moveToNextInput = (currentIndex) => {
-    for (let i = currentIndex + 1; i < maskedTitle.length; i += 1) {
-      if (!maskedTitle[i]?.revealed) {
-        focusInput(i);
-        return;
-      }
+  const findNextEditableIndex = (start) => {
+    for (let i = start + 1; i < maskedTitle.length; i += 1) {
+      if (!maskedTitle[i]?.revealed) return i;
     }
+    return null;
+  };
+
+  const findPrevEditableIndex = (start) => {
+    for (let i = start - 1; i >= 0; i -= 1) {
+      if (!maskedTitle[i]?.revealed) return i;
+    }
+    return null;
   };
 
   const moveToPrevInput = (currentIndex) => {
-    for (let i = currentIndex - 1; i >= 0; i -= 1) {
-      if (!maskedTitle[i]?.revealed) {
-        focusInput(i);
-        return;
-      }
-    }
+    const prevIndex = findPrevEditableIndex(currentIndex);
+    if (prevIndex !== null) focusInput(prevIndex);
   };
 
   const handleInputChange = (index, value) => {
@@ -653,14 +656,33 @@ const fetchGenreTitle = async (genreOption) => {
       event.preventDefault();
       return;
     }
+
     if ((event.key === 'Enter' || event.key === 'ArrowRight') && !isComposingRef.current) {
       event.preventDefault();
+      let lastFilledIndex = index;
       setGuessInputs((prev) => {
         const base = getNormalizedGuessArrayState(prev);
-        base[index] = getOutputChar(base[index]);
+        const chars = Array.from(base[index] || '');
+        if (chars.length === 0) {
+          return base;
+        }
+        let charPtr = 0;
+        for (let i = index; i < maskedTitle.length && charPtr < chars.length; i += 1) {
+          if (maskedTitle[i]?.revealed) continue;
+          if (i !== index && base[i]) break;
+          base[i] = chars[charPtr];
+          lastFilledIndex = i;
+          charPtr += 1;
+        }
         return base;
       });
-      moveToNextInput(index);
+
+      const nextIndex = findNextEditableIndex(lastFilledIndex);
+      if (nextIndex !== null) {
+        focusInput(nextIndex);
+      } else if (!isSubmitDisabled) {
+        handleGuess();
+      }
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
       moveToPrevInput(index);
